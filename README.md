@@ -13,11 +13,9 @@ El sistema sigue el modelo de tres capas, asegurando una organización clara y e
   3.1Maneja la interfaz de usuario,se comunica con la capacidad de negocio a través de los controladores.
 -----------------------------------------------------------------------------------------------------------------
 Dentro de la capa de presentacion se implemento el patron MVC
-  
-Dentro de la capa de presentacion se implemento el patron MVC:
-Modelo ( layersmvc/domain/) representa los datos y la lógica del negocio.
-Vista ( layersmvc/presentacion/) gestiona la interfaz gráfica.
-Controlador ( layersmvc/domain/service/) actúa como intermediario entre el Modelo y la Vista.
+Modelo(layersmvc/domain) representa los datos y la logica del negocio
+Vista(layersmvc/presentacion) gestiona la interfaz grafica
+controlador (layersmvc/domain/service) actua como intermediario entre el modelo y la vista
 -----------------------------------------------------------------------------------------------------
 Se crean diferentes repositorios para cada entidad de la capa de dominio,cada repositorio se encarga exclusivamente de una entidad específica, evitando que una sola clase maneje múltiples tipos de datos. Esta decision se basa en el principio Principio de Responsabilidad Única.
 
