@@ -3,7 +3,9 @@ INTEGRANTES:
 Jhon Steven Zuñiga Muñoz 
 Juan Esteban Mera Mera 
 Anyi Katherine Sánchez Yasnó
+---------------------------------------------------------------------------------------------
 Gestión de proyectos academicos para empresas
+----------------------------------------------------------------------------------------
 DECISIONES DE DISEÑO DE LA ARQUITECTURA
 Se ha adoptado una arquitectura en capas para lograr una mejor separación de responsabilidades, facilitando la mantenibilidad y escalabilidad del sistema.
 El sistema sigue el modelo de tres capas, asegurando una organización clara y estructurada:
