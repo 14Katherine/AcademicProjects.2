@@ -11,6 +11,8 @@ El sistema sigue el modelo de tres capas, asegurando una organización clara y e
   validaciones.Actúa como intermediario entre la capa de datos y la capa de presentación.
 3.co.edu.unicauca.layersmvc.presentacion
   3.1Maneja la interfaz de usuario,se comunica con la capacidad de negocio a través de los controladores.
+-----------------------------------------------------------------------------------------------------------------
+Dentro de la capa de presentacion se implemento el patron MVC
   
 Dentro de la capa de presentacion se implemento el patron MVC:
 Modelo ( layersmvc/domain/) representa los datos y la lógica del negocio.
