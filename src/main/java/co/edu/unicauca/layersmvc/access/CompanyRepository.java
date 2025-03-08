@@ -4,17 +4,17 @@
  */
 package co.edu.unicauca.layersmvc.access;
 import java.sql.*;
-import co.edu.unicauca.layersmvc.domain.Empresa; // Importa la clase Empresa
+import co.edu.unicauca.layersmvc.domain.Company; // Importa la clase Empresa
 
 /**
  *
  * @author Katherine
  */
 
-public class EmpresaAccess {
+public class CompanyRepository {
 
     // Método para registrar la empresa
-    public boolean registrarEmpresa(Empresa empresa) {
+    public boolean registrarEmpresa(Company empresa) {
         String sql = "INSERT INTO Empresa (NIT, Nombre, Contacto, Direccion, Correo, Usuario, Contraseña) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexionBD.obtenerConexion();

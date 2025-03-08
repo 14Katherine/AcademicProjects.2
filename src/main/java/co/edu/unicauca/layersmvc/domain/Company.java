@@ -8,7 +8,7 @@ package co.edu.unicauca.layersmvc.domain;
  *
  * @author Katherine
  */
-public class Empresa {
+public class Company {
 
     private String nit;
     private String nombre;
@@ -23,7 +23,7 @@ public class Empresa {
     private String contraseña;
 
     // Constructor, Getters y Setters
-    public Empresa(String nit, String nombre, String correo, String sector, String contacto, String nombrecontacto, String apellidoscontacto, String cargocontacto, String usuario, String contraseña) {
+    public Company(String nit, String nombre, String correo, String sector, String contacto, String nombrecontacto, String apellidoscontacto, String cargocontacto, String usuario, String contraseña) {
         this.nit = nit;
         this.nombre = nombre;
         this.correo = correo;

@@ -4,9 +4,9 @@
  */
 package co.edu.unicauca.layersmvc.presentacion;
 
-import co.edu.unicauca.layersmvc.access.EmpresaAccess;
-import co.edu.unicauca.layersmvc.domain.Empresa;
-import co.edu.unicauca.layersmvc.domain.service.EmpresaService;
+import co.edu.unicauca.layersmvc.access.CompanyRepository;
+import co.edu.unicauca.layersmvc.domain.Company;
+import co.edu.unicauca.layersmvc.domain.service.ServiceCompany;
 
 import javax.swing.JOptionPane;
 
@@ -543,10 +543,10 @@ public class Registro extends javax.swing.JFrame {
         }
 
         // Crear el objeto Empresa con los datos
-        Empresa empresa = new Empresa(nit, nombre, correo, sector, contacto, nombrecontacto, apellidoscontacto, cargocontacto, usuario, contraseña);
+        Company empresa = new Company(nit, nombre, correo, sector, contacto, nombrecontacto, apellidoscontacto, cargocontacto, usuario, contraseña);
 
         // Crear una instancia del servicio y registrar la empresa
-        EmpresaService empresaService = new EmpresaService();
+        ServiceCompany empresaService = new ServiceCompany();
         if (empresaService.registrarEmpresa(empresa)) {
             JOptionPane.showMessageDialog(this, "Empresa registrada exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             txtnit.setText("");
