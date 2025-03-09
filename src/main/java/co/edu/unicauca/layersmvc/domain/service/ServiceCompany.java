@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package co.edu.unicauca.layersmvc.domain.service;
+import co.edu.unicauca.layersmvc.infra.Subject;
 
 import co.edu.unicauca.layersmvc.access.CompanyRepository;
 import co.edu.unicauca.layersmvc.access.IProjectRepository;
@@ -12,21 +13,16 @@ import co.edu.unicauca.layersmvc.domain.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
 /**
  *
  * @author Katherine
  */
+public class ServiceCompany extends Subject {
 
-
-public class ServiceCompany extends Subject{
-
-      // Ahora hay una dependencia de una abstracción, no es algo concreto,
+    // Ahora hay una dependencia de una abstracción, no es algo concreto,
     // no sabe cómo está implementado.
     private IProjectRepository repository;
+    public Iterable<Project> listProject;
 
     /**
      * Inyección de dependencias en el constructor.Ya no conviene que el mismo
@@ -34,49 +30,55 @@ public class ServiceCompany extends Subject{
      *
      */
     public ServiceCompany() {
-        repository = ProjectFactory.getInstance().getRepository();
+        this.repository = ProjectFactory.getInstance().getRepository();
     }
 
-    
-
+    /*Guarda un nuevo proyecto en el repositorio
+     */
     public boolean saveProject(Project newProject) {
 
-        //Validate product
-        if (newProject == null || newProject.getNo() < 0 || newProject.getNombreProyecto().isEmpty()) {
+        if (newProject == null || newProject.getNo() < 0
+                || newProject.getNombreProyecto() == null || newProject.getNombreProyecto().isEmpty()) {
             return false;
         }
 
-        // Antes de guardar, falta validar que no exista el proyecto
-        Project projectAux = repository.find(newProject.getNo());
-
-        if (projectAux != null) {
-            // El producto ya existe
-            return false;
+        // Validar que el proyecto no exista
+        if (repository.find(newProject.getNo()) != null) {
+            return false; // Ya existe un proyecto con ese número
         }
 
         repository.save(newProject);
-        // Notifica a todos los observadores que el modelo cambió
-        this.notifyAllObserves();
+        this.notifyAllObserves(listProjects()); // Notificar cambios
         return true;
     }
 
-    public List<Project> listProject() {
-        List<Project> projects = new ArrayList<>();
-        projects = repository.list();
-        return projects;
+    // Obtiene la lista de proyectos
+    public List<Project> listProjects() {
+        List<Project> projects = repository.list();
+        return projects != null ? projects : new ArrayList<>();  // Prevenir el retorno de null
     }
 
+
+
+
+
+
+   // Actualiza un proyecto en el repositorio
     public boolean updateProject(Project newProject) {
-        //Validate product
         if (newProject == null || newProject.getNo() < 0 || newProject.getNombreProyecto().isEmpty()) {
             return false;
         }
 
-        // Notifica a todos los observadores que el modelo cambió
+        // Validar que el proyecto exista antes de actualizarlo
+        if (repository.find(newProject.getNo()) == null) {
+            return false; // No se puede actualizar un proyecto que no existe
+        }
+
+        // Actualizar el proyecto y notificar a los observadores
         repository.update(newProject);
-        this.notifyAllObserves();
+        this.notifyAllObserves(listProjects()); // Notificar cambios con la lista actualizada
         return true;
     }
 
-}
 
+}

@@ -547,7 +547,7 @@ public class Registro extends javax.swing.JFrame {
 
         // Crear una instancia del servicio y registrar la empresa
         ServiceCompany empresaService = new ServiceCompany();
-        if (empresaService.registrarEmpresa(empresa)) {
+      /*  if (empresaService.registrarEmpresa(empresa)) {
             JOptionPane.showMessageDialog(this, "Empresa registrada exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             txtnit.setText("");
             txtnombreEm.setText("");
@@ -563,7 +563,7 @@ public class Registro extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Error al registrar empresa.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
+*/
     }//GEN-LAST:event_BotonResEmpActionPerformed
 
     private void botonregresarResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonregresarResActionPerformed

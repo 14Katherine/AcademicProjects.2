@@ -1,19 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package co.edu.unicauca.layersmvc.presentacion;
 
+import co.edu.unicauca.layersmvc.domain.Project;
+import co.edu.unicauca.layersmvc.infra.Observer;
 import co.edu.unicauca.layersmvc.domain.service.ServiceCompany;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Es un observador
  *
- * @author Katherine
+ * @author ahurtado
  */
 public class GUIListProjectViewController extends javax.swing.JFrame implements Observer {
 
@@ -22,15 +21,24 @@ public class GUIListProjectViewController extends javax.swing.JFrame implements 
     DefaultTableModel model;
 
     /**
-     * Creates new form GUIListProjectViewController
+     * Creates new form GUIListadoProductos
+     *
+     * @param service servicio
      */
-    public GUIListProjectViewController() {
-         initComponents();
+    public GUIListProjectViewController(ServiceCompany service) {
+        initComponents();
         this.service = service;
         this.model = new DefaultTableModel();
         model.addColumn("No");
         model.addColumn("NombreEmpresa");
         model.addColumn("NombreProyecto");
+        model.addColumn("Objetivos");
+        model.addColumn("Descripcion");
+         model.addColumn("TiempoMax");
+          model.addColumn("Presupuesto");
+        
+        
+        
         table = new JTable(model);
         jPanel2.add(new JScrollPane(table));
         setSize(500, 200);
@@ -48,87 +56,94 @@ public class GUIListProjectViewController extends javax.swing.JFrame implements 
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnModificar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Listado de proyectos");
+        jLabel1.setText("Listado de Proyectos");
+        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnModificar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(285, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCerrar);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIListProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIListProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIListProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIListProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIListProjectViewController().setVisible(true);
-            }
-        });
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+       // Modificar proyecto seleccionado
+       int index = table.getSelectedRow();
+    
+    // Verifica si se seleccionó una fila
+    if (index != -1) {
+        List<Project> projects = (List<Project>) service.listProjects();
+        
+        // Verifica que la lista no sea vacía y el índice sea válido
+        if (projects != null && index < projects.size()) {
+            Project selectedProject = projects.get(index);
+            //new GUIEditProjectViewController(service, selectedProject).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Proyecto no encontrado.");
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un proyecto.");
     }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   
+    public void update(List<Project> projects) {
+    this.setVisible(true);
+    model.setRowCount(0); // Limpiar la tabla antes de actualizarla
+
+   if (projects != null && !projects.isEmpty()) {
+            for (Project p : projects) {
+                model.addRow(new Object[]{
+                    "" + p.getNo(),
+                    p.getNombreEmpresa(),
+                    p.getNombreProyecto(),
+                    p.getDescripcion(),
+                    p.getObjetivos(),
+                    p.getTiempoMax(),
+                    p.getPresupuesto()
+                });
+            }
+        } else {
+            model.addRow(new Object[]{"No projects available", "", "", ""});
+        }
+
+        table.paintImmediately(table.getBounds());  // Forzar repintado de la tabla
     }
-}
+
+    }
+

@@ -33,15 +33,26 @@ public class ProjectFactory {
 
  
     public IProjectRepository getRepository() {  
-        IProjectRepository result = null;
+      IProjectRepository result = null;
+
+    try { 
+        // Cargar la clase del repositorio desde las propiedades
+        String repositoryClassName = Utilities.loadProperty("repositoryClass");
         
-        try { 
-            result = (IProjectRepository) Class.forName(Utilities.loadProperty("repositoryClass")).getConstructor().newInstance();
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(ProjectFactory.class.getName()).log(Level.SEVERE, null, ex);
+        if (repositoryClassName == null) {
+            Logger.getLogger(ProjectFactory.class.getName()).severe("Repository class not found in configuration!");
+        } else {
+            result = (IProjectRepository) Class.forName(repositoryClassName).getConstructor().newInstance();
         }
-        if(result == null)
-         result = new ProjectRepository();
-        return result;
+        
+    } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        Logger.getLogger(ProjectFactory.class.getName()).log(Level.SEVERE, null, ex);
     }
-}
+    
+    // Si result sigue siendo null, usa el repositorio por defecto
+    if(result == null) {
+        result = new ProjectRepository();
+    }
+    
+    return result;
+}}

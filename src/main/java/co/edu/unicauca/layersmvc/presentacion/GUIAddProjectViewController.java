@@ -19,8 +19,10 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
     /**
      * Creates new form GestionEmpresa
      */
-    public GUIAddProjectViewController() {
+    public GUIAddProjectViewController(ServiceCompany service) {
+        
         initComponents();
+          this.service = service;
     }
 
     /**
@@ -37,11 +39,9 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jnombrePro = new javax.swing.JLabel();
-        jresumenPro = new javax.swing.JLabel();
         jobjetivosPro = new javax.swing.JLabel();
         jdescripcionPro = new javax.swing.JLabel();
         txtnombrePro = new javax.swing.JTextField();
-        txtresumenPro = new javax.swing.JTextField();
         txtobjetivosPro = new javax.swing.JTextField();
         txtdescripcionPro = new javax.swing.JTextField();
         jtiempomxPro = new javax.swing.JLabel();
@@ -73,8 +73,6 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
         jTabbedPane1.addTab("Estado", jPanel2);
 
         jnombrePro.setText("Nombre Proyecto:");
-
-        jresumenPro.setText("Resumen:");
 
         jobjetivosPro.setText("Objetivos:");
 
@@ -112,7 +110,6 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jresumenPro)
                             .addComponent(jLabel3)
                             .addComponent(jdescripcionPro)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -145,9 +142,7 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
                             .addComponent(txttiempomaxPro, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                             .addComponent(txtpresupuestoPro)))
                     .addComponent(txtobjetivosPro, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtnombrePro, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtresumenPro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)))
+                    .addComponent(txtnombrePro, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -176,15 +171,11 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jnombrePro)
-                        .addGap(20, 20, 20))
+                        .addGap(89, 89, 89))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtnombrePro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jresumenPro)
-                    .addComponent(txtresumenPro, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addGap(87, 87, 87)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jobjetivosPro)
                     .addComponent(txtobjetivosPro, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -231,58 +222,62 @@ public class GUIAddProjectViewController extends javax.swing.JFrame {
 
     private void jguardarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jguardarProActionPerformed
         // TODO add your handling code here:
-        Project newProject = new Project(Integer.parseInt(txtNo.getText()), txtnombreEmPro.getText(), txtnombrePro.getText(), txtobjetivosPro.getText(), txtdescripcionPro.getText(), txttiempomaxPro.getText(), Double.parseDouble(txtpresupuestoPro.getText()));
+
+        if (service == null) {
+            service = new ServiceCompany();
+        }
+
+        String nombre = txtnombrePro.getText();
+        String objetivos = txtobjetivosPro.getText();
+        String descripcion = txtdescripcionPro.getText();
+        String tiempoMax = txttiempomaxPro.getText();
+        String presupuesto = txtpresupuestoPro.getText();
+        String numero = txtNo.getText();
+        String nombreEmpresa = txtnombreEmPro.getText();
+
+        if (nombre.isEmpty()  || objetivos.isEmpty() || descripcion.isEmpty()
+                || tiempoMax.isEmpty() || presupuesto.isEmpty() || numero.isEmpty() || nombreEmpresa.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int tiempo = Integer.parseInt(tiempoMax);
+            double pres = Double.parseDouble(presupuesto);
+
+            Project newProject = new Project(Integer.parseInt(txtNo.getText()), txtnombreEmPro.getText(),
+                    txtnombrePro.getText(), txtobjetivosPro.getText(), txtdescripcionPro.getText(), txttiempomaxPro.getText(),
+                    Double.parseDouble(txtpresupuestoPro.getText()));
+            if (service.saveProject(newProject)) {
+                clearFields();
+            } else {
+                JOptionPane.showMessageDialog(null, "El No del proyecto ya existe");
+            }
+            JOptionPane.showMessageDialog(this, "Proyecto guardado exitosamente.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, " presupuesto deben ser valores numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        /* Project newProject = new Project(Integer.parseInt(txtNo.getText()), txtnombreEmPro.getText(), 
+        txtnombrePro.getText(), txtobjetivosPro.getText(), txtdescripcionPro.getText(), txttiempomaxPro.getText(),
+        Double.parseDouble(txtpresupuestoPro.getText()));
         if (service.saveProject(newProject)) {
             clearFields();
         } else {
-            JOptionPane.showMessageDialog(null, "El id del producto ya existe");
-        }
+            JOptionPane.showMessageDialog(null, "El No del proyecto ya existe");
+        }*/
     }//GEN-LAST:event_jguardarProActionPerformed
-private void clearFields(){
+    private void clearFields() {
         txtNo.setText("");
         txtnombreEmPro.setText("");
         txtnombrePro.setText("");
-         txtobjetivosPro.setText("");
-         txtdescripcionPro.setText("");
-         txttiempomaxPro.setText("");
-         txtpresupuestoPro.setText("");
-         
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIAddProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIAddProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIAddProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIAddProjectViewController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+        txtobjetivosPro.setText("");
+        txtdescripcionPro.setText("");
+        txttiempomaxPro.setText("");
+        txtpresupuestoPro.setText("");
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIAddProjectViewController().setVisible(true);
-            }
-        });
     }
+
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -296,7 +291,6 @@ private void clearFields(){
     private javax.swing.JButton jguardarPro;
     private javax.swing.JLabel jnombrePro;
     private javax.swing.JLabel jobjetivosPro;
-    private javax.swing.JLabel jresumenPro;
     private javax.swing.JButton jsubirPro;
     private javax.swing.JLabel jtiempomxPro;
     private javax.swing.JTextField txtNo;
@@ -305,7 +299,6 @@ private void clearFields(){
     private javax.swing.JTextField txtnombrePro;
     private javax.swing.JTextField txtobjetivosPro;
     private javax.swing.JTextField txtpresupuestoPro;
-    private javax.swing.JTextField txtresumenPro;
     private javax.swing.JTextField txttiempomaxPro;
     // End of variables declaration//GEN-END:variables
 }
